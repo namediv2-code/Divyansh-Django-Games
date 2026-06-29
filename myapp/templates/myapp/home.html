@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Rock Paper Scissors game</title>
+</head>
+<body>
+    <h2>Rock, Paper, Scissors mast game</h2>
+
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" name="choice" value="rock">🪨 Rock</button>
+        <button type="submit" name="choice" value="paper">📄 Paper</button>
+        <button type="submit" name="choice" value="scissors">✂️ Scissors</button>
+    </form>
+    <form method="post">
+        {%csrf_token%}
+        <button type="submit" name="wish" value="yes">Play Again</button>
+    </form>
+    {% if result %}
+        <h2>You chose: {{ user_choice }}</h2>
+        <h2>Computer chose: {{ computer_choice }}</h2>
+        <h2>{{ result }}</h2>
+    {% endif %}
+    <style>
+    .sidebox {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+    }
+</style>
+    <div class="sidebox">
+    <h4>Number of games played: {{nofg}}</h4>
+    <p>Wins: {{w}}</p>
+    <p>Losses: {{l}}</p>
+    <p>Ties: {{t}}</p>
+    <a href="{% url 'navigation' %}" class="button-link">Game Menu</a>
+    <a href="{% url 'guessno' %}" class="button-link">Number Guessing Game</a>
+    </div>
+</body>
+</html>

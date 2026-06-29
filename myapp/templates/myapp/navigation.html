@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Game Menu</title>
+    <h1>Click the game you want to play</h1>
+</head>
+<body>
+    <style>
+    .button-link {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: cyan;
+        color: red;
+        text-decoration: none;
+        border: 2px solid black;
+        border-radius: 5px;
+        font-size: 16px;
+    }
+    </style>
+    <style>
+body {
+display: flex;
+flex-direction: column;
+align-items: center;
+margin: 0;
+text-align: center;
+}
+.sidebox {
+position: absolute;
+top: 1px;
+right: 5px;
+}
+</style>
+    <a href="{% url "home" %}" class="button-link">Rock Paper Scissors</a>
+    <br>
+    <a href="{% url "guessno" %}" class="button-link">Number Guessing Game</a>
+    <br>
+    <a href="{% url "cricket" %}" class="button-link">Cricket</a>
+<h4>-By Divyansh Gupta
+</body>
+</html>

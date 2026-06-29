@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Cricket Game</title>
+<style>
+body {
+display: flex;
+flex-direction: column;
+align-items: center;
+margin: 0;
+text-align: center;
+}
+.sidebox {
+position: absolute;
+top: 1px;
+right: 5px;
+}
+</style>
+</head>
+<body>
+<h1>Choose</h1>
+{%if showbut or again%}
+<form method="post">
+{%csrf_token%}
+<button type="submit" name="choice" value="bowl">Bowl</button>
+<button type="submit" name="choice" value="bat">Bat</button>
+</form>
+{%endif%}
+{%if bowl%}
+<form method="post">
+{%csrf_token%}
+<input type="number" name="unumber">
+<button type="submit">Submit</button>
+</form>
+<h2>{{result}}</h2>
+{%endif%}
+{%if bat%}
+<form method="post">
+{%csrf_token%}
+<input type="number" name="unumber" min="1" max="6" required>
+<button type="submit">Submit</button>
+</form>
+<h2>{{result}}</h2>
+{%endif%}
+{%if decision%}
+<h2>{{result}}</h2>
+<h2>{{decision}}</h2>
+{%endif%}
+<form method="post">
+{%csrf_token%}
+<button type="submit" name="wish" value="again">Play Again</button>
+<br><br>
+<style>
+.button-link {
+display: inline-block;
+padding: 10px 20px;
+background-color: white;    
+color: black;
+text-decoration: none;
+border: 2px solid black;
+border-radius: 5px;
+font-size: 16px;
+}
+</style>
+<a href="{% url 'crules' %}" class="button-link">Rules</a>
+<a href="{% url "navigation" %}" class="button-link">Game Menu</a>
+<h4>By Divyansh Gupta
+</form>
+</body>
+</html>
