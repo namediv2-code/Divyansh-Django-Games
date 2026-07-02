@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Computer Guesses</title>
+<style>
+body {
+display: flex;
+flex-direction: column;
+align-items: center;
+margin: 0;
+text-align: center;
+}
+.sidebox {
+position: absolute;
+top: 1px;
+right: 5px;
+}
+</style>
+</head>
+<body>
+<h1>Computer guesses your number</h1>
+{%if show%}
+<form method="post">
+{%csrf_token%}
+<h6>lower range</h6><input type="number" name="lrange">
+<h6>upper range</h6><input type="number" name="hrange">
+<button type="submit">Submit</button>
+</form>
+{%endif%}
+<form method="post">
+{%csrf_token%}
+<br>
+<button type="submit" name="wish" value="again">Play again</button>
+</form>
+{%if nog and not guess and not guesses%}
+<h3>{{nog}}</h3>
+{%endif%}
+{%if mode%}
+<form method="post">
+{%csrf_token%}
+<h3>My guess is{{g}}.Is it low or high?</h3>
+<button type="submit" name="loh" value="low">low</button>
+<button type="submit" name="loh" value="high">High</button>
+<button type="submit" name="loh" value="correct">Correct</button>
+</form>
+{%endif%}
+{%if guess%}
+<h3>{{guess}}</h3>
+{%endif%}
+{%if guesses%}
+<h3>{{guesses}}</h3>
+{%endif%}
+{%if ges and not guesses%}
+<h3>{{ges}} guesses..</h3>
+{%endif%}
+<a href="{% url "navigation" %}" class="button-link">Game Menu</a>
+<a href="{% url "gnav" %}" class="button-link">Back</a>
+<h4>By Divyansh Gupta</h4>
+</body>
+</html>

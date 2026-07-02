@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Guessing Game Navigator</title>
+</head>
+<body>
+<style>
+.button-link {
+display: inline-block;
+padding: 10px 20px;
+background-color: yellow;
+color: blue;
+text-decoration: none;
+border: 2px solid black;
+border-radius: 5px;
+font-size: 16px;
+}
+</style>
+<style>
+body {
+display: flex;
+flex-direction: column;
+align-items: center;
+margin: 0;
+text-align: center;
+}
+.sidebox {
+position: absolute;
+top: 1px;
+right: 5px;
+}
+</style>
+<br><br><br>
+<a href="{% url "guessno" %}" class="button-link">You guess the computer's number</a>
+<br>
+<a href="{% url "computerGuesses" %}" class="button-link">Computer guesses your number</a>
+<br>
+<a href="{% url "navigation" %}" class="button-link">Game Menu</a>
+</body>
+</html>

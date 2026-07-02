@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Trivia</title>
+</head>
+<body>
+<h1>Trivia</h1>
+<form method="post">
+{% csrf_token %}
+<button type="submit" name="start" value="play">Play</button>
+<button type="submit" name="wish" value="again">Play Again</button>
+</form>
+{%if mode%}
+{%if question%}
+<h2>{{time}}</h2>
+<h2>{{question|safe}}</h2>
+<p id="countdown"></p>
+<form method="post" id="answerForm">
+{% csrf_token %}
+<input type="hidden" name="option" id="optionInput">
+<button type="submit" onclick="document.getElementById('optionInput').value='a'">a</button>
+<button type="submit" onclick="document.getElementById('optionInput').value='b'">b</button>
+<button type="submit" onclick="document.getElementById('optionInput').value='c'">c</button>
+<button type="submit" onclick="document.getElementById('optionInput').value='d'">d</button>
+</form>
+<script>
+let seconds = {{ s }};
+let display = document.getElementById("countdown");
+let form = document.getElementById("answerForm");
+display.innerText = seconds + " seconds remaining";
+let timer = setInterval(function() {
+seconds -= 1;
+display.innerText = seconds + " seconds remaining";
+if (seconds <= 0) {
+clearInterval(timer);
+display.innerText = "Time's up!";
+document.getElementById("optionInput").value = "timeout";
+form.submit();
+}
+}, 1000);
+</script>
+{%endif%}
+{%if result%}
+<h3>{{result}}</h3>
+{%endif%}
+{%else%}
+<h3>Gameover, your score was {{p}}</h3>
+{%endif%}
+<a href="{% url 'navigation' %}" class="button-link">Game Menu</a>
+<h5>By Divynash Gupta</h5>
+</body>
+</html>
