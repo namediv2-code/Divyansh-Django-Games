@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Equipment</title>
+</head>
+<body>
+<h4>You currently have {{clicks}} clicks</h4>
+<h3>T-shirt -- Cost = 50 clicks - 1 click per second</h3>
+<form method="post" id="equipForm">
+{%csrf_token%}
+<input type="hidden" name="autoclick" value="no" id="autoclickInput">
+<button type="submit" name="tshirt" value="yes">{{tstate}}</button>
+</form> 
+<form method="post">
+{% csrf_token %}
+<button type="submit" name="sell" value="yes">Sell all</button>
+</form>
+<a href="{% url 'clicker' %}">BACK</a>
+</body>
+</html>

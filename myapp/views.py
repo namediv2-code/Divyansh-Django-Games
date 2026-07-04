@@ -1,7 +1,7 @@
 import random
 import time
 from django.shortcuts import render
-
+from django.shortcuts import render, redirect
 def home(request):
     result = None
     user_choice = None
@@ -208,7 +208,7 @@ def cricket(request):
 def crules(request):
     return render(request,'myapp/cricketrules.html',{})
 def trivia(request):
-    q=["1+1?\na.1 b.2 c.3 d.11","2+2?<br>a.4 b.2 c.12 d.22","1+2?<br>a.3 b.4 c.2 d.9"]
+    q=["1+1?\na.1 b.2 c.3 d.11","2+2?\na.4 b.2 c.12 d.22","1+2?\na.3 b.4 c.2 d.9"]
     a=["b","a","a"]
     if "p" not in request.session:
         request.session["p"]=0
@@ -327,3 +327,123 @@ def computerGuesses(request):
     return render(request,'myapp/computerguesses.html',context)
 def gnav(request):
     return render(request,'myapp/guessingpage.html',{})
+def clicker(request):
+    #request.session["ach"]=[]
+    one="""First click
+    Get 1 click"""
+    five="""Starter
+    Get 5 clicks"""
+    ten="""Decaclick
+    Get 10 clicks"""
+    fifty="""Half Century
+    Get 50 clicks"""
+    hundred="""Century
+    Get 100 clicks"""
+    thousand="""Wooden League
+    Get 1000 clicks"""
+    fivethousand="""Stone league
+    Get 5000 clicks"""
+    tenthousand="""Iron league
+    Get 10000 clicks"""
+    fiftythousand="""Gold league
+    Get 50000 clicks"""
+    hundredthousand="""Diamond league
+    Get 100000 clicks"""
+    thestarting="""The End?
+    Get 500000 clicks"""
+    theend="""The End
+    Reach 1000000 clicks"""
+    if "clicks" not in request.session:
+        request.session["clicks"]=0
+    if "ach" not in request.session:
+        request.session["ach"]=[]
+    heading="Click that button...please!"
+    if request.method=="POST":
+        if request.POST.get("play")=="again":
+            request.session["clicks"]=0
+        if request.POST.get("click")=="done":
+            request.session["clicks"]+=1
+        if request.POST.get("autoclick")=="yes" and request.session.get("tstate")=="unequip":
+            request.session["clicks"]+=1
+        if request.session["clicks"]==1:
+            if ("1. "+one) not in request.session["ach"]:
+                request.session["ach"].append("1. "+one)
+            request.session.modified=True
+        if request.session["clicks"]==5:
+            if ("2. "+five) not in request.session["ach"]:
+                request.session["ach"].append("2. "+five)
+            request.session.modified=True
+        if request.session["clicks"]==10:
+            if ("3. "+ten) not in request.session["ach"]:
+                request.session["ach"].append("3. "+ten)
+            request.session.modified=True
+        if request.session["clicks"]==50:
+            if ("4. "+fifty) not in request.session["ach"]:
+                request.session["ach"].append("4. "+fifty)
+            request.session.modified=True
+        if request.session["clicks"]==100:
+            if ("5. "+hundred) not in request.session["ach"]:
+                request.session["ach"].append("5. "+hundred)
+            request.session.modified=True
+        if request.session["clicks"]==1000:
+            if ("6. "+thousand) not in request.session["ach"]:
+                request.session["ach"].append("6. "+thousand)
+            request.session.modified=True
+        if request.session["clicks"]==5000:
+            if ("7. "+fivethousand) not in request.session["ach"]:
+                request.session["ach"].append("7. "+fivethousand)
+            request.session.modified=True
+        if request.session["clicks"]==10000:
+            if ("8. "+tenthousand) not in request.session["ach"]:
+                request.session["ach"].append("8. "+tenthousand)
+            request.session.modified=True
+        if request.session["clicks"]==50000:
+            if ("9. "+fiftythousand) not in request.session["ach"]:
+                request.session["ach"].append("9. "+fiftythousand)
+            request.session.modified=True
+        if request.session["clicks"]==100000:
+            if ("10. "+hundredthousand) not in request.session["ach"]:
+                request.session["ach"].append("10. "+hundredthousand)
+            request.session.modified=True
+        if request.session["clicks"]==500000:
+            if ("11. "+thestarting) not in request.session["ach"]:
+                request.session["ach"].append("11. "+thestarting)
+            request.session.modified=True
+        if request.session["clicks"]==1000000:
+            if ("12. "+theend) not in request.session["ach"]:
+                request.session["ach"].append("12. "+theend)
+            request.session.modified=True
+        return redirect("clicker")
+    context={"clicks":request.session["clicks"],"heading":heading,"ach":request.session["ach"],"tstate":request.session.get("tstate","buy")}
+    return render(request,'myapp/earth.html',context)
+def cach(request):
+    if request.POST.get("restart")=="yes":
+        request.session["ach"]=[]
+    context={"ach":request.session.get("ach",[])}
+    return render(request,'myapp/cach.html',context)
+def equipment(request):
+    if "clicks" not in request.session:
+        request.session["clicks"]=0
+    if "tstate" not in request.session:
+        request.session["tstate"]="buy"
+    if request.method=="POST":
+        if request.POST.get("tshirt")=="yes" and ((request.session["tstate"]=="buy" and request.session["clicks"]>=50) or request.session["tstate"]=="equip"):
+            if request.session["tstate"]=="buy":
+                if request.session["clicks"]>=50:
+                    request.session["tstate"]="unequip"
+                    request.session["clicks"]-=50
+            elif request.session["tstate"]=="equip":
+                request.session["tstate"]="unequip"
+        elif request.POST.get("autoclick")=="yes" and request.session["tstate"]=="unequip":
+            request.session["clicks"]+=1
+        elif request.POST.get("tshirt")=="yes" and request.session["tstate"]=="unequip":
+            request.session["tstate"]="equip"
+        elif request.POST.get("sell")=="yes" and request.session["tstate"]!="buy":
+            request.session["tstate"]="buy"
+            request.session["clicks"]+=50
+    context={"tstate":request.session["tstate"],"clicks":request.session["clicks"]}
+    return render(request,'myapp/equipment.html',context)
+from django.http import JsonResponse
+
+def get_clicks(request):
+    return JsonResponse({"clicks": request.session.get("clicks", 0)})

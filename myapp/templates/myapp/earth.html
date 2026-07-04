@@ -1,0 +1,111 @@
+{%load static%}
+<!DOCTYPE html>
+<html>
+<head>
+<title>Click</title>
+<style>
+body {
+display: flex;
+flex-direction: column;
+align-items: center;
+margin: 0;
+text-align: center;
+}
+.button-link {
+display: inline-block;
+padding: 10px 20px;
+background-color: white;
+color: #b8b800;
+text-decoration: none;
+border: 3px solid black;
+border-radius: 5px;
+font-size: 16px;
+font-weight: bold
+}
+.sidebox {
+position: absolute;
+top: 1px;
+right: 5px;
+}
+.big-btn {
+padding: 30px 60px;
+font-size: 32px;
+background-color: #efefef;
+color: #101010;
+border: 4px solid black;
+border-radius: 10px;
+cursor: pointer;
+display: block;
+margin: 0 auto 20px auto;
+}
+.small-btns {
+display: flex;
+gap: 10px;
+justify-content: center;
+}
+.small-btn {
+padding: 10px 20px;
+font-size: 16px;
+background-color: white;
+color: #dd0000;
+border: 3px solid black;
+border-radius: 5px;
+cursor: pointer;
+font-weight: bold
+}
+.small-abtn {
+padding: 10px 20px;
+font-size: 16px;
+background-color: white;
+color: #00dd80;
+border: 3px solid black;
+border-radius: 5px;
+cursor: pointer;
+font-weight: bold;
+}
+</style>
+</head>
+<body>
+{%if heading%}
+<h1>{{heading}}</h1>
+{%endif%}
+<audio id="clickSound" src="{% static 'myapp/click.mp3' %}"></audio>
+<form method="post" id="clickForm">
+{%csrf_token%}
+<button type="submit" name="click" value="done" class="big-btn">CLICK</button>
+<div>
+<button type="submit" name="play" value="again" class="small-btn">PLAY AGAIN???</button>
+<a href="{% url 'cach' %}" class="button-link">ACHEIVEMENTS</a>
+<a href="{% url 'equipment' %}" class="small-abtn">EQUIPMENT</a>
+</div>
+</form>
+{% if tstate == "unequip" %}
+<script>
+setInterval(function() {
+var form = document.getElementById('clickForm');
+var input = document.createElement('input');
+input.type = 'hidden';
+input.name = 'autoclick';
+input.value = 'yes';
+form.appendChild(input);
+form.submit();
+}, 1000);
+</script>
+{% endif %}
+<h3 id="clickCount">{{clicks}} clicks</h3>
+<script>
+document.querySelector('.big-btn').addEventListener('click', function(e) {
+e.preventDefault();
+document.getElementById('clickSound').play();
+setTimeout(function() {
+var input = document.createElement('input');
+input.type = 'hidden';
+input.name = 'click';
+input.value = 'done';
+document.getElementById('clickForm').appendChild(input);
+document.getElementById('clickForm').submit();
+}, 110);
+});
+</script>
+</body>
+</html>

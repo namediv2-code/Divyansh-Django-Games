@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Click Acheivements</title>
+</head>
+<body>
+<form method="post">
+{%csrf_token%}
+<button type="submit" name="restart" value="yes">Restart Acheivements</button>
+</form>
+{%for a in ach%}
+<h4>{{a}}</h4>
+{%endfor%}
+<a href="{% url 'clicker' %}">BACK</a>
+</body>
+</html>
